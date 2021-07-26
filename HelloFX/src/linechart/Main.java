@@ -1,4 +1,4 @@
-package application;
+package linechart;
 	
 import javafx.application.Application;
 import javafx.stage.Stage;
