@@ -9,10 +9,17 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import java.lang.Math;
 
 
-public class Main extends Application {
+public class Memory extends Application {
+	
+	private double flux;
+	private double sensitivity;
+	private int size;
+	private int D;
+	
+	
+	
 	@Override
 	public void start(Stage primaryStage) {
 		init(primaryStage);
@@ -32,9 +39,11 @@ public class Main extends Application {
 		XYChart.Series<Number, Number> data = new XYChart.Series<>();
 		data.setName("False MBUs / Time");
 		
-		for(int t = -5; t <= 5; ++t) {
-			data.getData().add(new XYChart.Data<Number, Number>(t*10, Math.pow(t, 3)));
-		}
+		
+		data.getData().add(new XYChart.Data<Number, Number>(this.flux, this.D));
+		data.getData().add(new XYChart.Data<Number, Number>(this.sensitivity, this.flux));
+		data.getData().add(new XYChart.Data<Number, Number>(this.size, this.sensitivity));
+		data.getData().add(new XYChart.Data<Number, Number>(this.D, this.size));
 		
 		lineChart.getData().add(data);
 		
@@ -54,9 +63,22 @@ public class Main extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
+		
 	}
 
-	public static void main(String[] args) {
-		launch(args);
+	public void setFlux(double flux) {
+		this.flux = flux;
+	}
+
+	public void setSensitivity(double sensitivity) {
+		this.sensitivity = sensitivity;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	public void setD(int d) {
+		D = d;
 	}
 }

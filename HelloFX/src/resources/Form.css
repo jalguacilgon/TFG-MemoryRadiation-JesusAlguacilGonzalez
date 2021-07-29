@@ -1,42 +1,27 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
-.parent{
+.anchor{
 	-fx-background-color: transparent;
 }
 
-.pane{
-	-fx-background-color: #2196f3;
-}
-
-.trans-btn-white-border{
-	-fx-background-color: transparent;
-	-fx-background-radius: 5px;
-	-fx-border-color: #cccccc;
-	-fx-border-radius: 5px;
+.vbox{
+	-fx-background-color: #f1f1f1;
+	-fx-border-color: #f3622d;
 	-fx-border-width: 1px;
-	-fx-text-fill: whitesmoke;
 }
 
-.white-pane{
-	-fx-background-color: white;
+.hbox{
+	-fx-background-color: #E6E6E6;
 }
 
-.blue-panel{
-	-fx-background-color: #151928;
+.form-btn{
+	
 }
 
-.tf_box{
-	-fx-background-color: transparent;
-	-fx-border-color: #dedee4;
-	-fx-border-width: 0px 0px 1px 0px;
+.dropdown{
+	
 }
 
-.tf{
-	-fx-background-color: transparent;
-}
-
-.blue-btn{
-	-fx-background-color: #2196f3;
-	-fx-background-radius: 5px;
-	-fx-text-fill: white;
+.input-text{
+	
 }
