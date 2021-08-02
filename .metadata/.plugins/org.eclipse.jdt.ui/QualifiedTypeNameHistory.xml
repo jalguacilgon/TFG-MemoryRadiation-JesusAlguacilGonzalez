@@ -15,13 +15,20 @@
     <fullyQualifiedTypeName name="javafx.scene.chart.XYChart"/>
     <fullyQualifiedTypeName name="javafx.scene.chart.XYChart.Data"/>
     <fullyQualifiedTypeName name="javafx.scene.layout.HBox"/>
-    <fullyQualifiedTypeName name="javafx.stage.Stage"/>
     <fullyQualifiedTypeName name="javafx.application.Application"/>
     <fullyQualifiedTypeName name="javafx.scene.layout.VBox"/>
     <fullyQualifiedTypeName name="javafx.scene.layout.Priority"/>
     <fullyQualifiedTypeName name="java.lang.Math"/>
-    <fullyQualifiedTypeName name="javafx.scene.Parent"/>
     <fullyQualifiedTypeName name="javafx.fxml.FXMLLoader"/>
-    <fullyQualifiedTypeName name="javafx.scene.Scene"/>
     <fullyQualifiedTypeName name="java.net.URL"/>
+    <fullyQualifiedTypeName name="javafx.event.ActionEvent"/>
+    <fullyQualifiedTypeName name="javafx.stage.Stage"/>
+    <fullyQualifiedTypeName name="javafx.scene.Scene"/>
+    <fullyQualifiedTypeName name="javafx.scene.Parent"/>
+    <fullyQualifiedTypeName name="javafx.scene.Node"/>
+    <fullyQualifiedTypeName name="linechart.Memory"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.TextField"/>
+    <fullyQualifiedTypeName name="javafx.fxml.FXML"/>
+    <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.Label"/>
 </qualifiedTypeNameHistroy>

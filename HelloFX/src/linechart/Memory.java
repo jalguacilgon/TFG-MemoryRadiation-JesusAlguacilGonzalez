@@ -18,6 +18,7 @@ public class Memory extends Application {
 	private int size;
 	private int D;
 	
+	private double [] errors;
 	
 	
 	@Override
@@ -40,10 +41,7 @@ public class Memory extends Application {
 		data.setName("False MBUs / Time");
 		
 		
-		data.getData().add(new XYChart.Data<Number, Number>(this.flux, this.D));
-		data.getData().add(new XYChart.Data<Number, Number>(this.sensitivity, this.flux));
-		data.getData().add(new XYChart.Data<Number, Number>(this.size, this.sensitivity));
-		data.getData().add(new XYChart.Data<Number, Number>(this.D, this.size));
+		this.calculateErrors(data);
 		
 		lineChart.getData().add(data);
 		
@@ -65,6 +63,20 @@ public class Memory extends Application {
 		
 		
 	}
+	
+	private void calculateErrors(XYChart.Series<Number, Number> data) {
+		this.errors = new double [20];
+		double Np, Nbf, Nfm2;
+		for(int i = 1; i <= 20; ++i) {
+			Nbf = this.flux * i * this.sensitivity;
+			Np =  (Nbf * (Nbf - 1))/2;
+			Nfm2 = Math.pow(this.size, -1) * Np * 2 * this.D * (this.D + 1);
+			this.errors[i-1] = 1 - Math.pow(Math.E, -Nfm2);
+			System.out.println(i + ": Nbf: " + Nbf + ", Np: " + Np + ", Nfm2: " + Nfm2);
+			data.getData().add(new XYChart.Data<Number, Number>(i, this.errors[i-1]));
+		}
+	}
+	
 
 	public void setFlux(double flux) {
 		this.flux = flux;
