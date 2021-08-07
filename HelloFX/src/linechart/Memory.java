@@ -1,5 +1,6 @@
 package linechart;
 	
+import form.MethodSelection;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ public class Memory extends Application {
 	private double sensitivity;
 	private int size;
 	private int D;
+	private MethodSelection method;
 	
 	private double [] errors;
 	
@@ -40,8 +42,10 @@ public class Memory extends Application {
 		XYChart.Series<Number, Number> data = new XYChart.Series<>();
 		data.setName("False MBUs / Time");
 		
-		
-		this.calculateErrors(data);
+		if(this.method == MethodSelection.MD)
+			this.calculateMD(data);
+		else
+			this.calculateIND(data);
 		
 		lineChart.getData().add(data);
 		
@@ -64,13 +68,26 @@ public class Memory extends Application {
 		
 	}
 	
-	private void calculateErrors(XYChart.Series<Number, Number> data) {
-		this.errors = new double [20];
+	private void calculateMD(XYChart.Series<Number, Number> data) {
+		this.errors = new double [50];
 		double Np, Nbf, Nfm2;
-		for(int i = 1; i <= 20; ++i) {
+		for(int i = 1; i <= 50; ++i) {
 			Nbf = this.flux * i * this.sensitivity;
 			Np =  (Nbf * (Nbf - 1))/2;
 			Nfm2 = Math.pow(this.size, -1) * Np * 2 * this.D * (this.D + 1);
+			this.errors[i-1] = 1 - Math.pow(Math.E, -Nfm2);
+			System.out.println(i + ": Nbf: " + Nbf + ", Np: " + Np + ", Nfm2: " + Nfm2);
+			data.getData().add(new XYChart.Data<Number, Number>(i, this.errors[i-1]));
+		}
+	}
+	
+	private void calculateIND(XYChart.Series<Number, Number> data) {
+		this.errors = new double [50];
+		double Np, Nbf, Nfm2;
+		for(int i = 1; i <= 50; ++i) {
+			Nbf = this.flux * i * this.sensitivity;
+			Np =  (Nbf * (Nbf - 1))/2;
+			Nfm2 = Math.pow(this.size, -1) * Np * 4 * this.D * (this.D + 1);
 			this.errors[i-1] = 1 - Math.pow(Math.E, -Nfm2);
 			System.out.println(i + ": Nbf: " + Nbf + ", Np: " + Np + ", Nfm2: " + Nfm2);
 			data.getData().add(new XYChart.Data<Number, Number>(i, this.errors[i-1]));
@@ -92,5 +109,9 @@ public class Memory extends Application {
 
 	public void setD(int d) {
 		D = d;
+	}
+
+	public void setMethod(MethodSelection method) {
+		this.method = method;
 	}
 }

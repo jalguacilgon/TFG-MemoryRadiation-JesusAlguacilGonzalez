@@ -1,34 +1,46 @@
 package resources;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import form.MethodSelection;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import linechart.Memory;
 
-public class SceneController {
+public class SceneController implements Initializable{
 
 	private Stage stage;
 	
 	@FXML
-	TextField fluxTextField;
+	private TextField fluxTextField;
 	@FXML
-	TextField sensitivityTextField;
+	private TextField sensitivityTextField;
 	@FXML
-	TextField sizeTextField;
+	private TextField sizeTextField;
 	@FXML
-	TextField distanceTextField;
+	private TextField distanceTextField;
 	
 	@FXML
-	Label fluxError;
+	private ChoiceBox<MethodSelection> dropdown;
+	private MethodSelection[] method = {MethodSelection.MD, MethodSelection.IND};
+	
+	
 	@FXML
-	Label sensitivityError;
+	private Label fluxError;
 	@FXML
-	Label sizeError;
+	private Label sensitivityError;
 	@FXML
-	Label distanceError;
+	private Label sizeError;
+	@FXML
+	private Label distanceError;
 	
 	public void switchToGraph(ActionEvent event) {
 		boolean dataOk = true;
@@ -38,31 +50,44 @@ public class SceneController {
 		distanceError.setText(null);
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		Memory mem = new Memory();
+		
 		try {
 			mem.setFlux(Double.parseDouble(fluxTextField.getText()));
 		}catch (Exception e) {
 			fluxError.setText("Please enter a number");
 			dataOk = false;
 		}
+		
 		try {
 			mem.setSensitivity(Double.parseDouble(sensitivityTextField.getText()));
 		}catch (Exception e) {
 			sensitivityError.setText("Please enter a number");
 			dataOk = false;
 		}
+		
 		try {
 			mem.setSize(Integer.parseInt(sizeTextField.getText()));
 		}catch (Exception e) {
 			sizeError.setText("Please enter a number");
 			dataOk = false;
 		}
+		
 		try {
 			mem.setD(Integer.parseInt(distanceTextField.getText()));
 		}catch (Exception e) {
 			distanceError.setText("Please enter a number");
 			dataOk = false;
 		}
+		
+		mem.setMethod(dropdown.getValue());
+		
 		if(dataOk)
 			mem.start(stage);
+	}
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		dropdown.getItems().addAll(method);
+		dropdown.setValue(method[0]);
 	}
 }

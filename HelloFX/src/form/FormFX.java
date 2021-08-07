@@ -14,10 +14,10 @@ public class FormFX extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			URL fmxlocation = getClass().getResource("/resources/Form.fxml");
+			URL fmxlocation = getClass().getResource("/resources/FormDarkMode.fxml");
 			Parent root = FXMLLoader.load(fmxlocation);
 			Scene scene = new Scene(root);
-			String css = getClass().getResource("/resources/Form.css").toExternalForm();
+			String css = getClass().getResource("/resources/FormDarkMode.css").toExternalForm();
 			scene.getStylesheets().add(css);
 			primaryStage.setScene(scene);
 			primaryStage.show();
