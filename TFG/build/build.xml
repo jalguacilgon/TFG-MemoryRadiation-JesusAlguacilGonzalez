@@ -139,7 +139,7 @@
 		<fx:application id="fxApplication"
 			name="Memory Radiation"
 			mainClass="form.FormFX"
-			version ="1.0"
+			version = "1.0"
 		/>
 	
 		<mkdir dir="build/classes/META-INF" />
@@ -161,6 +161,23 @@
 		</fx:jar>
 	
 	
+		<mkdir dir="deploy" />
+		<!-- Need to use ${basedir} because somehow the ant task is calculating the directory differently -->
+		<fx:deploy
+			embedJNLP="false"
+			extension="false"
+			includeDT="false"
+			offlineAllowed="true"
+			outdir="${basedir}/deploy"
+			outfile="TFG" nativeBundles="exe"
+			updatemode="background" >
+	
+			<fx:platform basedir="${java.home}"/>
+			<fx:info title="TFG" vendor="Jesus Alguacil Gonzalez"/>
+	
+			<fx:application refId="fxApplication"/>
+			<fx:resources refid="appRes"/>
+		</fx:deploy>
 	
 	
 	</target>
