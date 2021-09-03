@@ -36,4 +36,5 @@
     <fullyQualifiedTypeName name="javafx.fxml.Initializable"/>
     <fullyQualifiedTypeName name="javafx.collections.ObservableList"/>
     <fullyQualifiedTypeName name="form.MethodSelection"/>
+    <fullyQualifiedTypeName name="java.lang.NumberFormatException"/>
 </qualifiedTypeNameHistroy>

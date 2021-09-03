@@ -52,28 +52,28 @@ public class SceneController implements Initializable{
 		
 		try {
 			mem.setFlux(Double.parseDouble(fluxTextField.getText()));
-		}catch (Exception e) {
+		}catch (NumberFormatException e) {
 			fluxError.setText("Please enter a number");
 			dataOk = false;
 		}
 		
 		try {
 			mem.setSensitivity(Double.parseDouble(sensitivityTextField.getText()));
-		}catch (Exception e) {
+		}catch (NumberFormatException e) {
 			sensitivityError.setText("Please enter a number");
 			dataOk = false;
 		}
 		
 		try {
 			mem.setSize(Integer.parseInt(sizeTextField.getText()));
-		}catch (Exception e) {
+		}catch (NumberFormatException e) {
 			sizeError.setText("Please enter a number");
 			dataOk = false;
 		}
 		
 		try {
 			mem.setD(Integer.parseInt(distanceTextField.getText()));
-		}catch (Exception e) {
+		}catch (NumberFormatException e) {
 			distanceError.setText("Please enter a number");
 			dataOk = false;
 		}
