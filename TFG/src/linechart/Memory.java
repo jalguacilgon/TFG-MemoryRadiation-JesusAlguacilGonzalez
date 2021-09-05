@@ -34,7 +34,7 @@ public class Memory extends Application {
 		xAxis.setLabel("Time");
 		
 		NumberAxis yAxis = new NumberAxis();
-		yAxis.setLabel("False MBUs");
+		yAxis.setLabel("False MCUs");
 		
 		LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
 		lineChart.setTitle("Memory Radiation");
