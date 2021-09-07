@@ -1,21 +1,25 @@
 package linechart;
 	
+import java.io.IOException;
+
 import form.MethodSelection;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import resources.SceneController;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 
 public class Memory extends Application {
 	
-	private double flux;
-	private double sensitivity;
 	private int size;
 	private int D;
 	private MethodSelection method;
@@ -49,20 +53,35 @@ public class Memory extends Application {
 			this.calculateIND(data);
 		
 		lineChart.getData().add(data);
-		
-		VBox vb = new VBox();
-        vb.setFillWidth(true);
-        HBox hb = new HBox();
-        hb.getChildren().add(lineChart);
-        hb.setFillHeight(true);
-        vb.getChildren().add(hb);
+        
+        StackPane spLineChart = new StackPane();
+        spLineChart.getChildren().add(lineChart);
 
-        HBox.setHgrow(lineChart, Priority.ALWAYS);
-        VBox.setVgrow(hb, Priority.ALWAYS);
+        Button button = new Button("New search");
+        button.setOnMouseClicked((event)->{
+            SceneController sc = new SceneController();
+            try {
+				sc.switchToForm(event);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        });
+        button.setStyle("-fx-text-fill: white;-fx-background-color: #f3802d;-fx-cursor: hand;");
+        Font font = new Font("Cantara", 15);
+        button.setFont(font);
+        StackPane spButton = new StackPane();
+        spButton.getChildren().add(button);
 
-        Scene scene = new Scene(vb);
+        VBox vbox = new VBox();
+        VBox.setVgrow(spLineChart, Priority.ALWAYS);
+        vbox.getChildren().addAll(spButton, spLineChart);
+
+        HBox.setHgrow(spLineChart, Priority.ALWAYS);
+        VBox.setVgrow(spLineChart, Priority.ALWAYS);
+
+        Scene scene = new Scene(vbox);
 		
-		primaryStage.setTitle("LineChart TFG");
+		primaryStage.setTitle("Memory Radiation");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
@@ -93,15 +112,6 @@ public class Memory extends Application {
 			System.out.println(i + ": Nbf: " + Nbf + ", Np: " + Np + ", Nfm2: " + Nfm2);
 			data.getData().add(new XYChart.Data<Number, Number>(i, this.errors[i]));
 		}
-	}
-	
-
-	public void setFlux(double flux) {
-		this.flux = flux;
-	}
-
-	public void setSensitivity(double sensitivity) {
-		this.sensitivity = sensitivity;
 	}
 
 	public void setSize(int size) {

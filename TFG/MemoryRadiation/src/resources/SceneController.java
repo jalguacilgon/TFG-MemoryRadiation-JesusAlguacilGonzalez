@@ -1,27 +1,27 @@
 package resources;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import form.MethodSelection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import linechart.Memory;
 
 public class SceneController implements Initializable{
-
-	private Stage stage;
 	
-	/*@FXML
-	private TextField fluxTextField;
-	@FXML
-	private TextField sensitivityTextField;*/
 	@FXML
 	private TextField sizeTextField;
 	@FXML
@@ -31,11 +31,6 @@ public class SceneController implements Initializable{
 	private ChoiceBox<MethodSelection> dropdown;
 	private MethodSelection[] method = {MethodSelection.MD, MethodSelection.IND};
 	
-	
-	/*@FXML
-	private Label fluxError;
-	@FXML
-	private Label sensitivityError;*/
 	@FXML
 	private Label sizeError;
 	@FXML
@@ -43,26 +38,10 @@ public class SceneController implements Initializable{
 	
 	public void switchToGraph(ActionEvent event) {
 		boolean dataOk = true;
-		/*fluxError.setText(null);
-		sensitivityError.setText(null);*/
 		sizeError.setText(null);
 		distanceError.setText(null);
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		Memory mem = new Memory();
-		
-		/*try {
-			mem.setFlux(Double.parseDouble(fluxTextField.getText()));
-		}catch (NumberFormatException e) {
-			fluxError.setText("Please enter a number");
-			dataOk = false;
-		}
-		
-		try {
-			mem.setSensitivity(Double.parseDouble(sensitivityTextField.getText()));
-		}catch (NumberFormatException e) {
-			sensitivityError.setText("Please enter a number");
-			dataOk = false;
-		}*/
 		
 		try {
 			mem.setSize(Integer.parseInt(sizeTextField.getText()));
@@ -82,6 +61,17 @@ public class SceneController implements Initializable{
 		
 		if(dataOk)
 			mem.start(stage);
+	}
+	
+	public void switchToForm(MouseEvent event) throws IOException {
+		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		URL fmxlocation = getClass().getResource("/resources/Form.fxml");
+		Parent root = FXMLLoader.load(fmxlocation);
+		Scene scene = new Scene(root);
+		String css = getClass().getResource("/resources/Form.css").toExternalForm();
+		scene.getStylesheets().add(css);
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	@Override

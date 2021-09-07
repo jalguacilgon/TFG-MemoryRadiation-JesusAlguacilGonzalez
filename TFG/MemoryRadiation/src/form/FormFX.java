@@ -19,6 +19,7 @@ public class FormFX extends Application {
 			Scene scene = new Scene(root);
 			String css = getClass().getResource("/resources/Form.css").toExternalForm();
 			scene.getStylesheets().add(css);
+			primaryStage.setTitle("Memory Radiation");
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
