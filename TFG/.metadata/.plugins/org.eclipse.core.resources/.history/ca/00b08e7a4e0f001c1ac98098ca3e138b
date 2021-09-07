@@ -1,0 +1,19 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.anchor{
+	-fx-background-color: transparent;
+}
+
+.vbox{
+	-fx-background-color: #f1f1f1;
+	-fx-border-color: #f3622d;
+	-fx-border-width: 1px;
+}
+
+.hbox{
+	-fx-background-color: #E6E6E6;
+}
+
+.form-btn{
+	-fx-background-color: #f3622d;
+}

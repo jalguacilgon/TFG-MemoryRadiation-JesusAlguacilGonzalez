@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="editBundleContainerWizard">
+		<item key="groupByCategory" value="true"/>
+		<item key="showVersions" value="true"/>
+		<item key="selectedRepository" value="http://download.eclipse.org/efxclipse/runtime-released/2.0.0/site"/>
+	</section>
+</section>
