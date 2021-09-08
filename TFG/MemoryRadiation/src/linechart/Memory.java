@@ -1,11 +1,16 @@
 package linechart;
 	
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import form.MethodSelection;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.stage.Stage;
-import resources.SceneController;
+import resources.FormToMemoryController;
+import resources.MemoryToWindowController;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -23,8 +28,9 @@ public class Memory extends Application {
 	private int size;
 	private int D;
 	private MethodSelection method;
+	private boolean generateUntilMax;
 	
-	private double [] errors;
+	private List<Double> errors;
 	private int nBitflips = 2000;
 	
 	
@@ -42,10 +48,10 @@ public class Memory extends Application {
 		yAxis.setLabel("False MCUs");
 		
 		LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
-		lineChart.setTitle("Memory Radiation");
+		lineChart.setTitle("Size: " + this.size + " bits   Distance: " + this.D);
 		
 		XYChart.Series<Number, Number> data = new XYChart.Series<>();
-		data.setName("False MBUs / Bitflip");
+		data.setName("Probability of False MCUs / Bitflip");
 		
 		if(this.method == MethodSelection.MD)
 			this.calculateMD(data);
@@ -53,24 +59,42 @@ public class Memory extends Application {
 			this.calculateIND(data);
 		
 		lineChart.getData().add(data);
+		
         
         StackPane spLineChart = new StackPane();
         spLineChart.getChildren().add(lineChart);
 
-        Button button = new Button("New search");
-        button.setOnMouseClicked((event)->{
-            SceneController sc = new SceneController();
+        Button formButton = new Button("New search");
+        formButton.setOnMouseClicked((event)->{
+            FormToMemoryController controller = new FormToMemoryController();
             try {
-				sc.switchToForm(event);
+            	controller.switchToForm(event);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
         });
-        button.setStyle("-fx-text-fill: white;-fx-background-color: #f3802d;-fx-cursor: hand;");
+        formButton.setStyle("-fx-text-fill: white;-fx-background-color: #f37e53;-fx-cursor: hand;");
         Font font = new Font("Cantara", 15);
-        button.setFont(font);
+        formButton.setFont(font);
+        
+        Button windowButton = new Button("Lookup desired result");
+        windowButton.setOnMouseClicked((event)->{
+            MemoryToWindowController controller = new MemoryToWindowController();
+            try {
+            	controller.switchToWindow(event, this);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        });
+        windowButton.setStyle("-fx-text-fill: white;-fx-background-color: #f37e53;-fx-cursor: hand;");
+        windowButton.setFont(font);
+        
+        HBox hbox = new HBox();
+        hbox.getChildren().addAll(formButton, windowButton);
+        hbox.setAlignment(Pos.CENTER);
+        
         StackPane spButton = new StackPane();
-        spButton.getChildren().add(button);
+        spButton.getChildren().add(hbox);
 
         VBox vbox = new VBox();
         VBox.setVgrow(spLineChart, Priority.ALWAYS);
@@ -89,29 +113,71 @@ public class Memory extends Application {
 	}
 	
 	private void calculateMD(XYChart.Series<Number, Number> data) {
-		this.errors = new double [this.nBitflips + 1];
+		this.errors = new ArrayList<Double>();
 		double Np, Nbf, Nfm2;
-		for(int i = 0; i <= this.nBitflips; ++i) {
-			Nbf = i;
-			Np =  (Nbf * (Nbf - 1))/2;
-			Nfm2 = Math.pow(this.size, -1) * Np * 2 * this.D * (this.D + 1);
-			this.errors[i] = 1 - Math.pow(Math.E, -Nfm2);
-			System.out.println(i + ": Nbf: " + Nbf + ", Np: " + Np + ", Nfm2: " + Nfm2);
-			data.getData().add(new XYChart.Data<Number, Number>(i, this.errors[i]));
+		
+		if(this.generateUntilMax) {
+			int i = 0;
+			double currentError = 0;
+			while(currentError < 0.99) {
+				Nbf = i;
+				Np =  (Nbf * (Nbf - 1))/2;
+				Nfm2 = Math.pow(this.size, -1) * Np * 2 * this.D * (this.D + 1);
+				currentError = 1 - Math.pow(Math.E, -Nfm2);
+				this.errors.add(currentError);
+				data.getData().add(new XYChart.Data<Number, Number>(i, currentError));
+				++i;
+			}
+			
 		}
+		else {
+			for(int i = 0; i <= this.nBitflips; ++i) {
+				Nbf = i;
+				Np =  (Nbf * (Nbf - 1))/2;
+				Nfm2 = Math.pow(this.size, -1) * Np * 2 * this.D * (this.D + 1);
+				this.errors.add(1 - Math.pow(Math.E, -Nfm2));
+				data.getData().add(new XYChart.Data<Number, Number>(i, this.errors.get(i)));
+			}
+		}
+		
 	}
 	
 	private void calculateIND(XYChart.Series<Number, Number> data) {
-		this.errors = new double [this.nBitflips + 1];
+		this.errors = new ArrayList<Double>();
 		double Np, Nbf, Nfm2;
-		for(int i = 1; i <= this.nBitflips; ++i) {
-			Nbf = i;
-			Np =  (Nbf * (Nbf - 1))/2;
-			Nfm2 = Math.pow(this.size, -1) * Np * 4 * this.D * (this.D + 1);
-			this.errors[i] = 1 - Math.pow(Math.E, -Nfm2);
-			System.out.println(i + ": Nbf: " + Nbf + ", Np: " + Np + ", Nfm2: " + Nfm2);
-			data.getData().add(new XYChart.Data<Number, Number>(i, this.errors[i]));
+		
+		if(this.generateUntilMax) {
+			int i = 0;
+			double currentError = 0;
+			while(currentError < 0.99) {
+				Nbf = i;
+				Np =  (Nbf * (Nbf - 1))/2;
+				Nfm2 = Math.pow(this.size, -1) * Np * 4 * this.D * (this.D + 1);
+				currentError = 1 - Math.pow(Math.E, -Nfm2);
+				this.errors.add(currentError);
+				data.getData().add(new XYChart.Data<Number, Number>(i, currentError));
+				++i;
+			}
 		}
+		else {
+			for(int i = 1; i <= this.nBitflips; ++i) {
+				Nbf = i;
+				Np =  (Nbf * (Nbf - 1))/2;
+				Nfm2 = Math.pow(this.size, -1) * Np * 4 * this.D * (this.D + 1);
+				this.errors.add(1 - Math.pow(Math.E, -Nfm2));
+				System.out.println(i + ": Nbf: " + Nbf + ", Np: " + Np + ", Nfm2: " + Nfm2);
+				data.getData().add(new XYChart.Data<Number, Number>(i, this.errors.get(i)));
+			}
+		}
+		
+	}
+	
+	public String findDesiredFalseMCUs(double desiredFalseMCUs) {
+		for (int i = 0; i < this.errors.size() ; ++i) {
+			if(this.errors.get(i) >= desiredFalseMCUs)
+				return "" + i;
+		}
+		return "Could not find expected result";
 	}
 
 	public void setSize(int size) {
@@ -124,5 +190,9 @@ public class Memory extends Application {
 
 	public void setMethod(MethodSelection method) {
 		this.method = method;
+	}
+
+	public void setGenerateUntilMax(boolean generateUntilMax) {
+		this.generateUntilMax = generateUntilMax;
 	}
 }
