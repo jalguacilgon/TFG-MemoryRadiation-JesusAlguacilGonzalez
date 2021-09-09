@@ -10,7 +10,6 @@ import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import resources.FormToMemoryController;
 import resources.MemoryToWindowController;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -73,8 +72,8 @@ public class Memory extends Application {
 				e.printStackTrace();
 			}
         });
-        formButton.setStyle("-fx-text-fill: white;-fx-background-color: #f37e53;-fx-cursor: hand;");
-        Font font = new Font("Cantara", 15);
+        formButton.setStyle("-fx-text-fill: white;-fx-background-color: #f37e53;-fx-cursor: hand; -fx-border-color: #707070;");
+        Font font = new Font("Candara", 15);
         formButton.setFont(font);
         
         Button windowButton = new Button("Lookup desired result");
@@ -86,7 +85,7 @@ public class Memory extends Application {
 				e.printStackTrace();
 			}
         });
-        windowButton.setStyle("-fx-text-fill: white;-fx-background-color: #f37e53;-fx-cursor: hand;");
+        windowButton.setStyle("-fx-text-fill: white;-fx-background-color: #f37e53;-fx-cursor: hand; -fx-border-color: #707070;");
         windowButton.setFont(font);
         
         HBox hbox = new HBox();
