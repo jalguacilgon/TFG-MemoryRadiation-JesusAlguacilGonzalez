@@ -44,7 +44,7 @@ public class Memory extends Application {
 		xAxis.setLabel("Number of Bitflips");
 		
 		NumberAxis yAxis = new NumberAxis();
-		yAxis.setLabel("False MCUs");
+		yAxis.setLabel("Probability of observing false MCUs");
 		
 		LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
 		lineChart.setTitle("Size: " + this.size + " bits   Distance: " + this.D);
@@ -104,7 +104,7 @@ public class Memory extends Application {
 
         Scene scene = new Scene(vbox);
 		
-		primaryStage.setTitle("Memory Radiation");
+		primaryStage.setTitle("False Multiple Cell Upsets (MCUs) estimator");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
@@ -114,10 +114,10 @@ public class Memory extends Application {
 	private void calculateMD(XYChart.Series<Number, Number> data) {
 		this.errors = new ArrayList<Double>();
 		double Np, Nbf, Nfm2;
+		int i = 0;
+		double currentError = 0;
 		
-		if(this.generateUntilMax) {
-			int i = 0;
-			double currentError = 0;
+		if(this.generateUntilMax) {			
 			while(currentError < 0.99) {
 				Nbf = i;
 				Np =  (Nbf * (Nbf - 1))/2;
@@ -130,7 +130,7 @@ public class Memory extends Application {
 			
 		}
 		else {
-			for(int i = 0; i <= this.nBitflips; ++i) {
+			for(i = 0; i <= this.nBitflips; ++i) {
 				Nbf = i;
 				Np =  (Nbf * (Nbf - 1))/2;
 				Nfm2 = Math.pow(this.size, -1) * Np * 2 * this.D * (this.D + 1);
@@ -145,9 +145,10 @@ public class Memory extends Application {
 		this.errors = new ArrayList<Double>();
 		double Np, Nbf, Nfm2;
 		
+		int i = 0;
+		double currentError = 0;
+		
 		if(this.generateUntilMax) {
-			int i = 0;
-			double currentError = 0;
 			while(currentError < 0.99) {
 				Nbf = i;
 				Np =  (Nbf * (Nbf - 1))/2;
@@ -159,13 +160,13 @@ public class Memory extends Application {
 			}
 		}
 		else {
-			for(int i = 1; i <= this.nBitflips; ++i) {
+			for(i = 0; i <= this.nBitflips; ++i) {
 				Nbf = i;
 				Np =  (Nbf * (Nbf - 1))/2;
 				Nfm2 = Math.pow(this.size, -1) * Np * 4 * this.D * (this.D + 1);
-				this.errors.add(1 - Math.pow(Math.E, -Nfm2));
-				System.out.println(i + ": Nbf: " + Nbf + ", Np: " + Np + ", Nfm2: " + Nfm2);
-				data.getData().add(new XYChart.Data<Number, Number>(i, this.errors.get(i)));
+				currentError = 1 - Math.pow(Math.E, -Nfm2);
+				this.errors.add(currentError);
+				data.getData().add(new XYChart.Data<Number, Number>(i, currentError));
 			}
 		}
 		

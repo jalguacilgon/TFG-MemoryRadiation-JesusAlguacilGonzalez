@@ -9,10 +9,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="211.0" prefWidth="500.0" styleClass="vbox" stylesheets="@Form.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="resources.MemoryToWindowController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="259.0" prefWidth="500.0" styleClass="vbox" stylesheets="@Form.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="resources.MemoryToWindowController">
    <children>
-      <Label text="Memory Radiation" textFill="#f3622d">
+      <Label text="False Multiple Cell Upsets (MCUs) estimator" textFill="#f3622d">
          <font>
             <Font name="Candara" size="20.0" />
          </font>
@@ -34,7 +35,7 @@
                <children>
                   <VBox prefHeight="50.0" prefWidth="488.0">
                      <children>
-                        <Label alignment="CENTER" text="Desired False MCUs">
+                        <Label alignment="CENTER" text="Maximum probability of false MCUs occurrence">
                            <VBox.margin>
                               <Insets left="10.0" right="5.0" top="5.0" />
                            </VBox.margin>
@@ -50,7 +51,7 @@
                               <Font name="Candara" size="15.0" />
                            </font>
                         </TextField>
-                        <Label fx:id="falseMCUsError" textFill="#f20000">
+                        <Label fx:id="falseMCUsError" prefWidth="0.0" textFill="#f20000">
                            <font>
                               <Font size="13.0" />
                            </font>
@@ -58,26 +59,26 @@
                               <Insets left="10.0" />
                            </VBox.margin>
                         </Label>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <Label alignment="CENTER" text="Number of bitflips to reach desired result:">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The maximum number of bitflips you should observe in your experiment is:" wrappingWidth="471.0">
                                  <font>
                                     <Font name="Candara" size="16.0" />
                                  </font>
-                                 <HBox.margin>
+                                 <VBox.margin>
                                     <Insets left="10.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <Label fx:id="resultLabel" alignment="CENTER">
+                                 </VBox.margin>
+                              </Text>
+                              <Label fx:id="resultLabel" prefHeight="20.0" prefWidth="315.0">
                                  <font>
                                     <Font name="Candara" size="16.0" />
                                  </font>
-                                 <HBox.margin>
-                                    <Insets left="5.0" />
-                                 </HBox.margin>
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin>
                               </Label>
                            </children>
-                        </HBox>
+                        </VBox>
                      </children>
                   </VBox>
                   <VBox prefHeight="46.0" prefWidth="503.0" />

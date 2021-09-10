@@ -14,7 +14,7 @@
 
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="354.0" prefWidth="500.0" styleClass="vbox" stylesheets="@Form.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="resources.FormToMemoryController">
    <children>
-      <Label text="Memory Radiation" textFill="#f3622d">
+      <Label text="False Multiple Cell Upsets (MCUs) estimator" textFill="#f3622d">
          <font>
             <Font name="Candara" size="20.0" />
          </font>
@@ -44,7 +44,7 @@
                               <Font name="Candara" size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="sizeTextField" prefHeight="25.0" prefWidth="433.0" promptText="Bytes" styleClass="input-text">
+                        <TextField fx:id="sizeTextField" prefHeight="25.0" prefWidth="433.0" promptText="Bits" styleClass="input-text">
                            <VBox.margin>
                               <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                            </VBox.margin>
@@ -72,7 +72,7 @@
                               <Font name="Candara" size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="distanceTextField" prefHeight="25.0" prefWidth="433.0" promptText="Distance" styleClass="input-text">
+                        <TextField fx:id="distanceTextField" prefHeight="25.0" prefWidth="433.0" promptText="Units" styleClass="input-text">
                            <VBox.margin>
                               <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                            </VBox.margin>
