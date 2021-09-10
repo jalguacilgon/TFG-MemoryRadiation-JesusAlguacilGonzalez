@@ -51,7 +51,7 @@
                               <Font name="Candara" size="15.0" />
                            </font>
                         </TextField>
-                        <Label fx:id="falseMCUsError" prefWidth="0.0" textFill="#f20000">
+                        <Label fx:id="falseMCUsError" prefHeight="19.0" prefWidth="451.0" textFill="#f20000">
                            <font>
                               <Font size="13.0" />
                            </font>
@@ -81,7 +81,6 @@
                         </VBox>
                      </children>
                   </VBox>
-                  <VBox prefHeight="46.0" prefWidth="503.0" />
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="488.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#calculateDesiredFalseMCUs" styleClass="form-btn" text="Obtain result" textFill="WHITE">

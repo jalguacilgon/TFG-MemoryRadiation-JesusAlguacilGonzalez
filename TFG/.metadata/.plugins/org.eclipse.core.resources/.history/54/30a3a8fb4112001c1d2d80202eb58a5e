@@ -44,7 +44,6 @@ public class MemoryToWindowController {
 		public void calculateDesiredFalseMCUs(ActionEvent event) throws IOException {
 			boolean dataOk = true;
 			resultLabel.setText(null);
-			falseMCUsError.setText(null);
 			
 			try {
 				this.desiredFalseMCUs = Double.parseDouble(falsemcusTextField.getText());
