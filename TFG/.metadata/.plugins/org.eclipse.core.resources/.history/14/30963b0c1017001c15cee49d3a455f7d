@@ -1,0 +1,22 @@
+package resources;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import linechart.Memory;
+
+public class MemoryToZoomController {
+	
+	@FXML
+	private TextField lowZoomTextField;
+	@FXML
+	private TextField highZoomTextField;
+	
+	@FXML
+	private Label zoomError;
+	
+	public void switchToZoom(MouseEvent event, Memory mem) {
+		
+	}
+}

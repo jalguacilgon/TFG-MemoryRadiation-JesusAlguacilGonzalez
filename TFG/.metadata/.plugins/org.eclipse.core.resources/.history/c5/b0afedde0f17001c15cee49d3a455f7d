@@ -1,0 +1,15 @@
+package resources;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+
+public class MemoryToZoomController {
+	
+	@FXML
+	private TextField lowZoomTextField;
+	@FXML
+	private TextField highZoomTextField;
+	
+	@FXML
+	private Label zoomError;
+}

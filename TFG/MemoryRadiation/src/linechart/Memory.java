@@ -9,7 +9,8 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import resources.FormToMemoryController;
-import resources.MemoryToWindowController;
+import resources.MemoryToLookupController;
+import resources.MemoryToZoomController;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -24,13 +25,15 @@ import javafx.scene.text.Font;
 
 public class Memory extends Application {
 	
-	private int size;
+	private int memorySize;
 	private int D;
 	private MethodSelection method;
 	private boolean generateUntilMax;
 	
 	private List<Double> errors;
 	private int nBitflips = 2000;
+	private XYChart.Series<Number, Number> data = new XYChart.Series<>();
+	LineChart<Number, Number> lineChart;
 	
 	
 	@Override
@@ -42,26 +45,30 @@ public class Memory extends Application {
 		// TODO Auto-generated method stub		
 		NumberAxis xAxis = new NumberAxis();
 		xAxis.setLabel("Number of Bitflips");
+		xAxis.setForceZeroInRange(false);
 		
 		NumberAxis yAxis = new NumberAxis();
 		yAxis.setLabel("Probability of observing false MCUs");
+		yAxis.setForceZeroInRange(false);
 		
-		LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
-		lineChart.setTitle("Size: " + this.size + " bits   Distance: " + this.D);
+		this.lineChart = new LineChart<Number, Number>(xAxis, yAxis);
+		this.lineChart.setTitle("Size: " + this.memorySize + " bits   Distance: " + this.D);
 		
-		XYChart.Series<Number, Number> data = new XYChart.Series<>();
-		data.setName("Probability of False MCUs / Bitflip");
+		this.data.setName("Probability of False MCUs / Bitflip");
 		
 		if(this.method == MethodSelection.MD)
-			this.calculateMD(data);
+			this.calculateMD(this.data);
 		else
-			this.calculateIND(data);
+			this.calculateIND(this.data);
 		
-		lineChart.getData().add(data);
+		this.lineChart.getData().add(this.data);
 		
         
         StackPane spLineChart = new StackPane();
-        spLineChart.getChildren().add(lineChart);
+        spLineChart.getChildren().add(this.lineChart);
+        
+        String buttonCSS = "-fx-text-fill: white;-fx-background-color: #f37e53;-fx-cursor: hand; -fx-border-color: #707070;";
+        Font font = new Font("Candara", 15);
 
         Button formButton = new Button("New search");
         formButton.setOnMouseClicked((event)->{
@@ -72,24 +79,42 @@ public class Memory extends Application {
 				e.printStackTrace();
 			}
         });
-        formButton.setStyle("-fx-text-fill: white;-fx-background-color: #f37e53;-fx-cursor: hand; -fx-border-color: #707070;");
-        Font font = new Font("Candara", 15);
+        formButton.setStyle(buttonCSS);
         formButton.setFont(font);
         
         Button windowButton = new Button("Lookup desired result");
         windowButton.setOnMouseClicked((event)->{
-            MemoryToWindowController controller = new MemoryToWindowController();
+            MemoryToLookupController controller = new MemoryToLookupController();
             try {
             	controller.switchToWindow(event, this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
         });
-        windowButton.setStyle("-fx-text-fill: white;-fx-background-color: #f37e53;-fx-cursor: hand; -fx-border-color: #707070;");
+        windowButton.setStyle(buttonCSS);
         windowButton.setFont(font);
         
+        Button zoomButton = new Button("Zoom in");
+        zoomButton.setOnMouseClicked((event)->{
+        	MemoryToZoomController controller = new MemoryToZoomController();
+        	try {
+            	controller.switchToZoom(event, this);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        });
+        zoomButton.setStyle(buttonCSS);
+        zoomButton.setFont(font);
+        
+        Button resetButton = new Button("Reset Zoom");
+        resetButton.setOnMouseClicked((event)->{
+        	this.linechartResetZoom();
+        });
+        resetButton.setStyle(buttonCSS);
+        resetButton.setFont(font);
+        
         HBox hbox = new HBox();
-        hbox.getChildren().addAll(formButton, windowButton);
+        hbox.getChildren().addAll(formButton, windowButton, zoomButton, resetButton);
         hbox.setAlignment(Pos.CENTER);
         
         StackPane spButton = new StackPane();
@@ -121,7 +146,7 @@ public class Memory extends Application {
 			while(currentError < 0.99) {
 				Nbf = i;
 				Np =  (Nbf * (Nbf - 1))/2;
-				Nfm2 = Math.pow(this.size, -1) * Np * 2 * this.D * (this.D + 1);
+				Nfm2 = Math.pow(this.memorySize, -1) * Np * 2 * this.D * (this.D + 1);
 				currentError = 1 - Math.pow(Math.E, -Nfm2);
 				this.errors.add(currentError);
 				data.getData().add(new XYChart.Data<Number, Number>(i, currentError));
@@ -133,7 +158,7 @@ public class Memory extends Application {
 			for(i = 0; i <= this.nBitflips; ++i) {
 				Nbf = i;
 				Np =  (Nbf * (Nbf - 1))/2;
-				Nfm2 = Math.pow(this.size, -1) * Np * 2 * this.D * (this.D + 1);
+				Nfm2 = Math.pow(this.memorySize, -1) * Np * 2 * this.D * (this.D + 1);
 				this.errors.add(1 - Math.pow(Math.E, -Nfm2));
 				data.getData().add(new XYChart.Data<Number, Number>(i, this.errors.get(i)));
 			}
@@ -152,7 +177,7 @@ public class Memory extends Application {
 			while(currentError < 0.99) {
 				Nbf = i;
 				Np =  (Nbf * (Nbf - 1))/2;
-				Nfm2 = Math.pow(this.size, -1) * Np * 4 * this.D * (this.D + 1);
+				Nfm2 = Math.pow(this.memorySize, -1) * Np * 4 * this.D * (this.D + 1);
 				currentError = 1 - Math.pow(Math.E, -Nfm2);
 				this.errors.add(currentError);
 				data.getData().add(new XYChart.Data<Number, Number>(i, currentError));
@@ -163,7 +188,7 @@ public class Memory extends Application {
 			for(i = 0; i <= this.nBitflips; ++i) {
 				Nbf = i;
 				Np =  (Nbf * (Nbf - 1))/2;
-				Nfm2 = Math.pow(this.size, -1) * Np * 4 * this.D * (this.D + 1);
+				Nfm2 = Math.pow(this.memorySize, -1) * Np * 4 * this.D * (this.D + 1);
 				currentError = 1 - Math.pow(Math.E, -Nfm2);
 				this.errors.add(currentError);
 				data.getData().add(new XYChart.Data<Number, Number>(i, currentError));
@@ -179,9 +204,24 @@ public class Memory extends Application {
 		}
 		return "Could not find expected result";
 	}
+	
+	public void linechartZoomIn(int low, int high) {
+		XYChart.Series<Number, Number> zoomedData = new XYChart.Series<Number, Number>();
+		for(int i = low; i <= high; ++i) {
+			zoomedData.getData().add(new XYChart.Data<Number, Number>(i, this.errors.get(i)));
+		}
+		this.lineChart.getData().clear();
+		this.lineChart.getData().add(zoomedData);
+		zoomedData.setName("Probability of False MCUs / Bitflip");
+	}
+	
+	public void linechartResetZoom() {
+		this.lineChart.getData().clear();
+		this.lineChart.getData().add(this.data);
+	}
 
 	public void setSize(int size) {
-		this.size = size;
+		this.memorySize = size;
 	}
 
 	public void setD(int d) {
@@ -194,5 +234,9 @@ public class Memory extends Application {
 
 	public void setGenerateUntilMax(boolean generateUntilMax) {
 		this.generateUntilMax = generateUntilMax;
+	}
+
+	public List<Double> getErrors() {
+		return errors;
 	}
 }
