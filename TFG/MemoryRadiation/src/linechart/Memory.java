@@ -74,7 +74,7 @@ public class Memory extends Application {
         formButton.setOnMouseClicked((event)->{
             FormToMemoryController controller = new FormToMemoryController();
             try {
-            	controller.switchToForm(event);
+            	controller.switchToForm(event, this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -238,5 +238,21 @@ public class Memory extends Application {
 
 	public List<Double> getErrors() {
 		return errors;
+	}
+
+	public int getMemorySize() {
+		return memorySize;
+	}
+
+	public int getD() {
+		return D;
+	}
+
+	public MethodSelection getMethod() {
+		return method;
+	}
+
+	public boolean isGenerateUntilMax() {
+		return generateUntilMax;
 	}
 }

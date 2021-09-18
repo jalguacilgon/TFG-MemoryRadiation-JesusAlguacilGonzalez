@@ -65,13 +65,24 @@ public class FormToMemoryController implements Initializable{
 			mem.start(stage);
 	}
 	
-	public void switchToForm(MouseEvent event) throws IOException {
+	public void switchToForm(MouseEvent event, Memory mem) throws IOException {
 		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		URL fmxlocation = getClass().getResource("/resources/Form.fxml");
-		Parent root = FXMLLoader.load(fmxlocation);
+		
+		URL fxmlocation = getClass().getResource("/resources/Form.fxml");
+		FXMLLoader loader = new FXMLLoader(fxmlocation);
+		
+		Parent root = loader.load();
 		Scene scene = new Scene(root);
 		String css = getClass().getResource("/resources/Form.css").toExternalForm();
 		scene.getStylesheets().add(css);
+		
+		FormToMemoryController controller = loader.getController();
+		controller.setMemorySize(Integer.toString(mem.getMemorySize()));
+		controller.setDistance(Integer.toString(mem.getD()));
+		controller.setMethod(mem.getMethod());
+		controller.setGeneration(mem.isGenerateUntilMax());
+		
+		stage.setTitle("False Multiple Cell Upsets (MCUs) estimator");
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -79,6 +90,23 @@ public class FormToMemoryController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		dropdown.getItems().addAll(method);
-		dropdown.setValue(method[0]);
 	}
+
+	public void setMemorySize(String memorySize) {
+		this.sizeTextField.setText(memorySize);
+	}
+
+	public void setDistance(String distance) {
+		this.distanceTextField.setText(distance);
+	}
+
+	public void setMethod(MethodSelection method) {
+		this.dropdown.setValue(method);
+	}
+
+	public void setGeneration(boolean isChecked) {
+		this.checkbox.setSelected(isChecked);
+	}
+
+	
 }

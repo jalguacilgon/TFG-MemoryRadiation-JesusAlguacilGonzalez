@@ -1,5 +1,0 @@
-module Memoryç {
-	requires javafx.controls;
-	
-	opens application to javafx.graphics, javafx.fxml;
-}

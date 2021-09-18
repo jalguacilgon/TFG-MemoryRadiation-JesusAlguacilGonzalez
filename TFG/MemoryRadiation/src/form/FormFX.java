@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import resources.FormToMemoryController;
 
 public class FormFX extends Application {
 	
@@ -14,11 +15,17 @@ public class FormFX extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			URL fmxlocation = getClass().getResource("/resources/Form.fxml");
-			Parent root = FXMLLoader.load(fmxlocation);
+			URL fxmlocation = getClass().getResource("/resources/Form.fxml");
+			FXMLLoader loader = new FXMLLoader(fxmlocation);
+			
+			Parent root = loader.load();
 			Scene scene = new Scene(root);
 			String css = getClass().getResource("/resources/Form.css").toExternalForm();
 			scene.getStylesheets().add(css);
+			
+			FormToMemoryController controller = loader.getController();
+			controller.setMethod(MethodSelection.MD);
+			
 			primaryStage.setTitle("False Multiple Cell Upsets (MCUs) estimator");
 			primaryStage.setScene(scene);
 			primaryStage.show();
