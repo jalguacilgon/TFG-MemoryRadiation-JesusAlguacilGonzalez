@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import form.MethodSelection;
+import form.SizeSelection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +31,9 @@ public class FormToMemoryController implements Initializable{
 	@FXML
 	private ChoiceBox<MethodSelection> dropdown;
 	private MethodSelection[] method = {MethodSelection.MD, MethodSelection.IND};	
+	@FXML 
+	private ChoiceBox<SizeSelection> sizeChoice;
+	private SizeSelection[] sizeMultipliers = {SizeSelection.BITS, SizeSelection.KBITS, SizeSelection.MBITS};
 	@FXML
 	private CheckBox checkbox;	
 	@FXML
@@ -45,7 +49,7 @@ public class FormToMemoryController implements Initializable{
 		Memory mem = new Memory();
 		
 		try {
-			mem.setSize(Integer.parseInt(sizeTextField.getText()));
+			mem.setSize(Integer.parseInt(sizeTextField.getText()), sizeChoice.getValue());
 		}catch (NumberFormatException e) {
 			sizeError.setText("Please enter a number");
 			dataOk = false;
@@ -59,6 +63,7 @@ public class FormToMemoryController implements Initializable{
 		}
 		
 		mem.setMethod(dropdown.getValue());
+		mem.setMultiplier(sizeChoice.getValue());
 		mem.setGenerateUntilMax(checkbox.isSelected());
 		
 		if(dataOk)
@@ -77,9 +82,10 @@ public class FormToMemoryController implements Initializable{
 		scene.getStylesheets().add(css);
 		
 		FormToMemoryController controller = loader.getController();
-		controller.setMemorySize(Integer.toString(mem.getMemorySize()));
+		controller.setMemorySize(Integer.toString(mem.getMemorySize()/mem.getMultiplier().getMultiplier()));
 		controller.setDistance(Integer.toString(mem.getD()));
 		controller.setMethod(mem.getMethod());
+		controller.setSizeMultiplier(mem.getMultiplier());
 		controller.setGeneration(mem.isGenerateUntilMax());
 		
 		stage.setTitle("False Multiple Cell Upsets (MCUs) estimator");
@@ -90,6 +96,7 @@ public class FormToMemoryController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		dropdown.getItems().addAll(method);
+		sizeChoice.getItems().addAll(sizeMultipliers);
 	}
 
 	public void setMemorySize(String memorySize) {
@@ -102,6 +109,10 @@ public class FormToMemoryController implements Initializable{
 
 	public void setMethod(MethodSelection method) {
 		this.dropdown.setValue(method);
+	}
+	
+	public void setSizeMultiplier(SizeSelection sizeMultiplier) {
+		this.sizeChoice.setValue(sizeMultiplier);
 	}
 
 	public void setGeneration(boolean isChecked) {

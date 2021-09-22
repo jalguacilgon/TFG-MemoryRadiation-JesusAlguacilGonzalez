@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import form.MethodSelection;
+import form.SizeSelection;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
@@ -26,6 +27,7 @@ import javafx.scene.text.Font;
 public class Memory extends Application {
 	
 	private int memorySize;
+	private SizeSelection multiplier;
 	private int D;
 	private MethodSelection method;
 	private boolean generateUntilMax;
@@ -220,8 +222,8 @@ public class Memory extends Application {
 		this.lineChart.getData().add(this.data);
 	}
 
-	public void setSize(int size) {
-		this.memorySize = size;
+	public void setSize(int size, SizeSelection sizeMultiplier) {
+		this.memorySize = size*sizeMultiplier.getMultiplier();
 	}
 
 	public void setD(int d) {
@@ -254,5 +256,13 @@ public class Memory extends Application {
 
 	public boolean isGenerateUntilMax() {
 		return generateUntilMax;
+	}
+
+	public SizeSelection getMultiplier() {
+		return multiplier;
+	}
+
+	public void setMultiplier(SizeSelection multiplier) {
+		this.multiplier = multiplier;
 	}
 }

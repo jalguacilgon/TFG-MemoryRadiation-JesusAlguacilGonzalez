@@ -25,4 +25,6 @@
     <fullyQualifiedTypeName name="javafx.fxml.FXMLLoader"/>
     <fullyQualifiedTypeName name="resources.FormToMemoryController"/>
     <fullyQualifiedTypeName name="form.MethodSelection"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.ChoiceBox"/>
+    <fullyQualifiedTypeName name="form.SizeSelection"/>
 </qualifiedTypeNameHistroy>

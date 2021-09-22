@@ -25,6 +25,7 @@ public class FormFX extends Application {
 			
 			FormToMemoryController controller = loader.getController();
 			controller.setMethod(MethodSelection.MD);
+			controller.setSizeMultiplier(SizeSelection.MBITS);
 			
 			primaryStage.setTitle("False Multiple Cell Upsets (MCUs) estimator");
 			primaryStage.setScene(scene);

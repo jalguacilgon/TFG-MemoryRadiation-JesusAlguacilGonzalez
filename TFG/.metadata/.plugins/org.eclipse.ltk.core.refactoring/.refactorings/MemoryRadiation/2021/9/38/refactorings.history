@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;sizeChoiceArray&apos; in &apos;resources.FormToMemoryController&apos; to &apos;sizeMultipliers&apos;&#x0D;&#x0A;- Original project: &apos;MemoryRadiation&apos;&#x0D;&#x0A;- Original element: &apos;resources.FormToMemoryController.sizeChoiceArray&apos;&#x0D;&#x0A;- Renamed element: &apos;resources.FormToMemoryController.sizeMultipliers&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;sizeChoiceArray&apos;" flags="589826" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src&lt;resources{FormToMemoryController.java[FormToMemoryController^sizeChoiceArray" name="sizeMultipliers" references="true" setter="false" stamp="1632329149067" textual="false" version="1.0"/>
+</session>
