@@ -11,7 +11,9 @@ import resources.FormToMemoryController;
 
 public class FormFX extends Application {
 	
-
+	/**
+	 * Displays the form and fills it with default values
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -38,6 +40,9 @@ public class FormFX extends Application {
 
 	}
 	
+	/**
+	 * Main function that opens the form
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

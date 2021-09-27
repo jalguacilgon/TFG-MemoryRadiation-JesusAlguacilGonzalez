@@ -46,7 +46,7 @@
                         </Label>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <TextField fx:id="sizeTextField" prefHeight="28.0" prefWidth="214.0" promptText="Bits" styleClass="input-text">
+                              <TextField fx:id="sizeTextField" prefHeight="28.0" prefWidth="214.0" styleClass="input-text">
                                  <font>
                                     <Font name="Candara" size="15.0" />
                                  </font>

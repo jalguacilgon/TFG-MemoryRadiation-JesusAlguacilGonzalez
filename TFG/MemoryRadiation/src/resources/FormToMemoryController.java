@@ -41,6 +41,11 @@ public class FormToMemoryController implements Initializable{
 	@FXML
 	private Label distanceError;
 	
+	/**
+	 * Retrieves the data from the form and creates a {@code Memory} object to display the results
+	 * 
+	 * @param event The event that triggered this action
+	 */
 	public void switchToGraph(ActionEvent event) {
 		boolean dataOk = true;
 		sizeError.setText(null);
@@ -70,6 +75,13 @@ public class FormToMemoryController implements Initializable{
 			mem.start(stage);
 	}
 	
+	/**
+	 * Switches the scene back to the form and fills the fields with the previous memory specifications
+	 * 
+	 * @param event The event that triggered this action
+	 * @param mem {@code Memory} object from which will fill the form's fields
+	 * @throws IOException If the {@code FXML} file provided was not found
+	 */
 	public void switchToForm(MouseEvent event, Memory mem) throws IOException {
 		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		

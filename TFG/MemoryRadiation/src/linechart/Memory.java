@@ -37,12 +37,29 @@ public class Memory extends Application {
 	private XYChart.Series<Number, Number> data = new XYChart.Series<>();
 	LineChart<Number, Number> lineChart;
 	
+	private boolean isZoomed = false;
 	
+	/**
+	 * Initializes the graph and buttons to display, then it calculates the data and adds it to the chart.
+	 * Lastly, it shows the scene with all the content that has been generated.
+	 * 
+	 * Must be used after setting the parameters retrieved by the form.
+	 * 
+	 * @param primaryStage the stage which will be used to display the linechart
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		init(primaryStage);
 	}
 	
+	/**
+	 * Initializes the graph and buttons to display, then it calculates the data and adds it to the chart.
+	 * Lastly, it shows the scene with all the content that has been generated.
+	 * 
+	 * Must be used after setting the parameters retrieved by the form.
+	 * 
+	 * @param primaryStage the stage which will be used to display the linechart
+	 */	
 	private void init(Stage primaryStage) {
 		// TODO Auto-generated method stub		
 		NumberAxis xAxis = new NumberAxis();
@@ -138,6 +155,12 @@ public class Memory extends Application {
 		
 	}
 	
+	
+	/**
+	 * Calculates the expected results using the Manhattan Distance (MD) method.
+	 * 
+	 * @param data XYChart Series in which the data will be stored
+	 */
 	private void calculateMD(XYChart.Series<Number, Number> data) {
 		this.errors = new ArrayList<Double>();
 		double Np, Nbf, Nfm2;
@@ -168,6 +191,11 @@ public class Memory extends Application {
 		
 	}
 	
+	/**
+	 * Calculates the expected results using the Infinity Norm Distance (MD) method.
+	 * 
+	 * @param data XYChart Series in which the data will be stored
+	 */	
 	private void calculateIND(XYChart.Series<Number, Number> data) {
 		this.errors = new ArrayList<Double>();
 		double Np, Nbf, Nfm2;
@@ -199,6 +227,12 @@ public class Memory extends Application {
 		
 	}
 	
+	/**
+	 * Returns the expected number of bitflips required to obtain a certain probability of false MCUs appearance.
+	 * 
+	 * @param desiredFalseMCUs The probability of false MCUs appearance
+	 * @return Expected number of bitflips to obtain desired probability in {@code String} format
+	 */
 	public String findDesiredFalseMCUs(double desiredFalseMCUs) {
 		for (int i = 0; i < this.errors.size() ; ++i) {
 			if(this.errors.get(i) >= desiredFalseMCUs)
@@ -206,6 +240,13 @@ public class Memory extends Application {
 		}
 		return "Could not find expected result";
 	}
+	
+	/**
+	 * Zooms in the chart between the values provided
+	 * 
+	 * @param low Lower value of the range
+	 * @param high Higher value of the range
+	 */
 	
 	public void linechartZoomIn(int low, int high) {
 		XYChart.Series<Number, Number> zoomedData = new XYChart.Series<Number, Number>();
@@ -215,11 +256,18 @@ public class Memory extends Application {
 		this.lineChart.getData().clear();
 		this.lineChart.getData().add(zoomedData);
 		zoomedData.setName("Probability of False MCUs / Bitflip");
+		this.isZoomed = true;
 	}
 	
+	/**
+	 * Resets zoom on the chart
+	 */
 	public void linechartResetZoom() {
-		this.lineChart.getData().clear();
-		this.lineChart.getData().add(this.data);
+		if(this.isZoomed) {
+			this.lineChart.getData().clear();
+			this.lineChart.getData().add(this.data);
+			this.isZoomed = false;
+		}
 	}
 
 	public void setSize(int size, SizeSelection sizeMultiplier) {
