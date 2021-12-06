@@ -1,0 +1,35 @@
+package linechart;
+
+import javafx.event.EventHandler;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+
+public class HoveredThresholdNode extends StackPane {
+	HoveredThresholdNode(int bitflips, double probability) {
+	      setPrefSize(15, 15);
+
+	      final Label label = createDataThresholdLabel(bitflips, probability);
+
+	      setOnMouseEntered(new EventHandler<MouseEvent>() {
+	        @Override public void handle(MouseEvent mouseEvent) {
+	          getChildren().setAll(label);
+	          toFront();
+	        }
+	      });
+	      setOnMouseExited(new EventHandler<MouseEvent>() {
+	        @Override public void handle(MouseEvent mouseEvent) {
+	          getChildren().clear();
+	        }
+	      });
+	    }
+
+	    private Label createDataThresholdLabel(int bitflips, double probability) {
+	      final Label label = new Label("p: " + probability + " / b: " + bitflips);
+	      label.getStyleClass().addAll("default-color0", "chart-line-symbol", "chart-series-line");
+	      label.setStyle("-fx-font-size: 20; -fx-font-weight: bold;");
+
+	      label.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
+	      return label;
+	    }
+}

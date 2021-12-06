@@ -17,6 +17,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
@@ -71,7 +72,7 @@ public class Memory extends Application {
 		yAxis.setForceZeroInRange(false);
 		
 		this.lineChart = new LineChart<Number, Number>(xAxis, yAxis);
-		this.lineChart.setTitle("Size: " + this.memorySize + " bits   Distance: " + this.D);
+		this.lineChart.setTitle("Size: " + this.memorySize + " bits   Distance: " + this.D + "   Method: " + this.method);
 		
 		this.data.setName("Probability of False MCUs / Bitflip");
 		
@@ -82,11 +83,13 @@ public class Memory extends Application {
 		
 		this.lineChart.getData().add(this.data);
 		
+		addTooltips(this.data);
+		
+		this.lineChart.getStyleClass().add("thick-chart");
         
         StackPane spLineChart = new StackPane();
         spLineChart.getChildren().add(this.lineChart);
         
-        String buttonCSS = "-fx-text-fill: white;-fx-background-color: #f37e53;-fx-cursor: hand; -fx-border-color: #707070;";
         Font font = new Font("Candara", 15);
 
         Button formButton = new Button("New search");
@@ -98,7 +101,7 @@ public class Memory extends Application {
 				e.printStackTrace();
 			}
         });
-        formButton.setStyle(buttonCSS);
+        formButton.getStyleClass().add("button-menu");
         formButton.setFont(font);
         
         Button windowButton = new Button("Lookup desired result");
@@ -110,7 +113,7 @@ public class Memory extends Application {
 				e.printStackTrace();
 			}
         });
-        windowButton.setStyle(buttonCSS);
+        windowButton.getStyleClass().add("button-menu");
         windowButton.setFont(font);
         
         Button zoomButton = new Button("Zoom in");
@@ -122,14 +125,14 @@ public class Memory extends Application {
 				e.printStackTrace();
 			}
         });
-        zoomButton.setStyle(buttonCSS);
+        zoomButton.getStyleClass().add("button-menu");
         zoomButton.setFont(font);
         
         Button resetButton = new Button("Reset Zoom");
         resetButton.setOnMouseClicked((event)->{
         	this.linechartResetZoom();
         });
-        resetButton.setStyle(buttonCSS);
+        resetButton.getStyleClass().add("button-menu");
         resetButton.setFont(font);
         
         HBox hbox = new HBox();
@@ -147,6 +150,7 @@ public class Memory extends Application {
         VBox.setVgrow(spLineChart, Priority.ALWAYS);
 
         Scene scene = new Scene(vbox);
+        scene.getStylesheets().add("/resources/Linechart.css");
 		
 		primaryStage.setTitle("False Multiple Cell Upsets (MCUs) estimator");
 		primaryStage.setScene(scene);
@@ -256,6 +260,7 @@ public class Memory extends Application {
 		this.lineChart.getData().clear();
 		this.lineChart.getData().add(zoomedData);
 		zoomedData.setName("Probability of False MCUs / Bitflip");
+		addTooltips(zoomedData);
 		this.isZoomed = true;
 	}
 	
@@ -267,6 +272,14 @@ public class Memory extends Application {
 			this.lineChart.getData().clear();
 			this.lineChart.getData().add(this.data);
 			this.isZoomed = false;
+		}
+	}
+	
+	private void addTooltips(XYChart.Series<Number, Number> series) {
+		for (XYChart.Data<Number, Number> entry : series.getData()) {
+            Tooltip t = new Tooltip("p: " + (double)Math.round(entry.getYValue().doubleValue() * 1000d) / 1000d + " / b: " + entry.getXValue().toString());
+            t.getStyleClass().add("tooltip-node");
+            Tooltip.install(entry.getNode(), t);
 		}
 	}
 

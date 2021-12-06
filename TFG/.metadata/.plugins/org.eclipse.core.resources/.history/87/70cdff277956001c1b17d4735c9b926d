@@ -1,0 +1,7 @@
+package linechart;
+
+import javafx.scene.layout.StackPane;
+
+public class HoveredThresholdNode extends StackPane {
+
+}

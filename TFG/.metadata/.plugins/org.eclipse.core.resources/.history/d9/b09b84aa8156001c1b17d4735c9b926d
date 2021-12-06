@@ -1,0 +1,7 @@
+.thick-chart .chart-series-line {    
+	-fx-stroke-width: 8px;
+}
+
+.thick-chart .chart-line-symbol{
+	-fx-background-color: #dda0dd, white;
+}
