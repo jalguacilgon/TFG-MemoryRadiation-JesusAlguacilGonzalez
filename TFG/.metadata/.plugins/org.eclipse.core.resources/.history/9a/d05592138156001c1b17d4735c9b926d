@@ -1,7 +1,0 @@
-.thick-chart .chart-series-line {    
-	-fx-stroke-width: 8px;
-}
-
-.thick-chart .chart-line-symbol{
-	
-}

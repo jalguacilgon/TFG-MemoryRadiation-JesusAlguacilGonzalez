@@ -1,9 +1,0 @@
-.thick-chart .chart-series-line {    
-	-fx-stroke-width: 6px;
-}
-
-.thick-chart .chart-line-symbol{
-	-fx-background-color: #f3622d;
-	-fx-background-radius: 5px;
-    -fx-padding: 2px;
-}
